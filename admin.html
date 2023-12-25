@@ -4,9 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz App - Admin Portal</title>
+    <script src="https://kit.fontawesome.com/985cafe0e1.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="adminstyle.css">
+    <link rel="stylesheet" href="verification.css">
+    <link rel="shortcut icon" href="images/favicon.jpg" type="image/x-icon">
+    <script src="adminscript.js" defer></script>
 </head>
 <body>
+    <div class="verification"></div>
     <div class="main">
         <div class="wrapper">
             <h2>Admin Portal - Quiz App</h2>
@@ -45,6 +50,8 @@
             <h1 class="heading">Questions available in quiz</h1>
             <div class="old-questions">
                 <div class="question">
+                    <i class="fas fa-edit"></i>
+                    <div class="close-btn">X</div>
                     <h2 class="quest">Question goes here</h2>
                     <div class="answers">
                         <div class="ans">
@@ -68,6 +75,5 @@
             </div>
         </div>
     </div>
-    <script src="adminscript.js"></script>
 </body>
 </html>

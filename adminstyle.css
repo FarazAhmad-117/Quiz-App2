@@ -12,6 +12,8 @@ body,html{
 .main{
     display: flex;
     flex-direction: column;
+    padding-bottom: 20vh;
+    position: relative;
 }
 .wrapper{
     border: 1px solid #ccc;
@@ -102,10 +104,27 @@ body,html{
     cursor: pointer;
     transition: all .3s ease-in-out;
 }
+.save-question{
+    display: block;
+    font-size: 20px;
+    padding: 15px 25px;
+    min-width: 120px;
+    border-radius: 50px;
+    margin: 5px auto;
+    background-color: #bbf4e2;
+    border: 2px solid #bbf4e2;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+}
 .add-btn:hover{
     background-color: #55aaab;
     color: #fff;
     border: 2px solid #55aaab;
+}
+.save-question:hover{
+    background-color: #64c2a4;
+    color: #fff;
+    border: 2px solid #64c2a4;
 }
 
 
@@ -136,7 +155,7 @@ body,html{
     padding: 15px 20px;
 }
 .old-questions .question{
-    width: 80%;
+    width: 95%;
     background-color: #fdf6f1;
     margin: 35px auto;
     padding: 10px 15px;
@@ -178,4 +197,75 @@ body,html{
     font-weight: 800;
     color: #000;
     padding: 0px 20px;
+}
+.question .close-btn{
+    display: inline;
+    font-weight: 600;
+    float: right;
+    cursor: pointer;
+    background-color: red;
+    color: #fff;
+    padding:2px 6px;
+    border: 2px solid red;
+    border-radius: 5px;
+    transition: all .3s linear;
+}
+.question .close-btn:hover{
+    background-color: transparent;
+    color: #000;
+    border: 2px solid black;
+}
+.question .edit-btn{
+    font-size: 20px;
+    padding: 5px;
+    cursor: pointer;
+}
+.question .edit-btn:hover{
+    color: rgb(54, 135, 229);
+}
+
+/* Delete Prompt */
+.delete-prompt{
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.delete-prompt .ans-box{
+    background-color: #fff;
+    padding: 25px 30px;
+    max-width: 400px;
+    width: 80%;
+    /* transform: translateY(-20vw); */
+    border-radius: 12px;
+}
+.delete-prompt .ans-box>h3{
+    font-size: 20px;
+    font-weight: 200;
+    color: #555;
+    padding: 15px 5px;
+    text-align: center;
+}
+.delete-prompt .ans-box>button{
+    max-width: 150px;
+    min-width: 120px;
+    padding: 8px 12px;
+    font-size: 17px;
+    border-radius: 25px;
+    background-color: rgb(54, 135, 229);
+    color: #fff;
+    border: 1px solid rgb(54, 135, 229);
+    outline: 1px solid rgb(54, 135, 229);
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+}
+.delete-prompt .ans-box>button:hover{
+    color: rgb(54, 135, 229);
+    background-color: #f2f2f2;
+}
+.delete-prompt .ans-box>button:nth-child(3){
+    float: right;
 }
