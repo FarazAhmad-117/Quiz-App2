@@ -57,6 +57,8 @@ const showAllQuestions = () => {
         htmlContent = "<h2>Sorry No Questions were found in Database!</h2>"
     }
     questionBox.innerHTML = htmlContent;
+    addFunctionalityToCloseBtn();
+    addFunctionalityToEditBtn();
 }
 showAllQuestions();
 
@@ -219,19 +221,23 @@ const editPrompt = (msg,key) => {
     })
 }
 
-Array.from(document.querySelectorAll('.close-btn')).map((bt) => {
-    bt.addEventListener('click', (e) => {
-        let key = Number(e.target.nextSibling.nextSibling.innerText[0]);
-        deletePrompt("Do you really want to delete Q no "+ key + " ?",key);
+const addFunctionalityToCloseBtn = ()=>{
+    Array.from(document.querySelectorAll('.close-btn')).map((bt) => {
+        bt.addEventListener('click', (e) => {
+            let key = Number(e.target.nextSibling.nextSibling.innerText[0]);
+            deletePrompt("Do you really want to delete Q no "+ key + " ?",key);
+        })
     })
-})
+}
+const addFunctionalityToEditBtn = () =>{
+    Array.from(document.querySelectorAll('.edit-btn')).map((bt) => {
+        bt.addEventListener('click', (e) => {
+            let key = Number(e.target.nextSibling.nextSibling.nextSibling.nextSibling.innerText[0]);
+            editPrompt("Do you really want to edit Q no "+ key + " ?",key);
+        })
+    })
+}
 
-Array.from(document.querySelectorAll('.edit-btn')).map((bt) => {
-    bt.addEventListener('click', (e) => {
-        let key = Number(e.target.nextSibling.nextSibling.nextSibling.nextSibling.innerText[0]);
-        editPrompt("Do you really want to edit Q no "+ key + " ?",key);
-    })
-})
 
 
 
