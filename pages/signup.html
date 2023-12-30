@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="signup.css">
+    <link rel="shortcut icon" href="../images/favicon.jpg" type="image/x-icon">
+    <title>Quiz App - SignUp</title>
+</head>
+<body>
+    <div class="main">
+        <div class="wrapper">
+            <div class="header">
+                <h2>Quiz App</h2>
+                <h3>Enter your details:</h3>
+            </div>
+            <form>
+                <div class="inBox">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" placeholder="Name">
+                    <p id="descriptionName"></p>
+                </div>
+                <div class="inBox">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" placeholder="Username">
+                    <p id="descriptionUser"></p>
+                </div>
+                <div class="inBox">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" placeholder="Email">
+                    <p id="descriptionEmail"></p>
+                </div>
+                <div class="inBox">
+                    <label for="dob">Date of Birth:</label>
+                    <input type="date" id="dob" placeholder="DD/MM/YYYY">
+                    <p id="descriptionDate"></p>
+                </div>
+                <div class="inBox">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" placeholder="Password">
+                    <p id="descriptionPass"></p>
+                </div>
+                <div class="inBox">
+                    <label for="conpassword">Confirm Password:</label>
+                    <input type="password" id="conpassword" placeholder="Confirm Password">
+                    <p id="descriptionConPass"></p>
+                </div>
+                <div class="showpassBox">
+                    <Label for="showpass">Show Password</Label>
+                    <input type="checkbox" name="show" id="showpass">
+                </div>
+                <button id="signup">SignUp</button>
+            </form>
+            <p class="ending-line">Already have an account ? <a href="login.html">Log In</a></p>
+        </div>
+    </div>
+    <script>
+        const showPass = document.getElementById('showpass');
+        const showPassBox = document.querySelector('.showpassBox');
+        const passBox = document.getElementById('password');
+        const conpPassBox = document.getElementById('conpassword');
+        const userBox = document.getElementById('username');
+        const nameBox = document.getElementById('name');
+        const emailBox = document.getElementById('email');
+        const dateBox = document.getElementById('dob');
+        const signupButton = document.getElementById('signup');
+        const newUser = {};
+        let users = [];
+        showPassBox.addEventListener("click",()=>{
+            if(showPass.checked == true){
+                passBox.type = "text";
+                conpPassBox.type = "text";
+            }else{
+                passBox.type = "password";
+                conpPassBox.type = "password";
+            }
+        })
+        signupButton.addEventListener('click',(e)=>{
+            e.preventDefault();
+            createUser();
+        })
+        const createUser = ()=>{
+            loadUsers();
+            let valid = validateForm();
+            if(!valid){
+                return;
+            }
+            newUser.name = nameBox.value;
+            newUser.username = userBox.value;
+            newUser.email = emailBox.value;
+            newUser.dateOfBirth = dateBox.value;
+            newUser.password = passBox.value;
+            users = [...users,newUser];
+            saveUsers();
+            resetBoxes();
+            setLoggedIn();
+            window.location.href = "../home.html";
+        };
+        const checkLoggedIn=()=>{
+            let data = localStorage.getItem('quiz-log-in');
+            return data === "true";
+        };
+        const setLoggedIn=()=>{
+            localStorage.setItem('quiz-log-in',true);
+        };
+        const loadUsers =()=>{
+            let data = localStorage.getItem('quiz-users');
+            users = JSON.parse(data);
+        };
+        const saveUsers = ()=>{
+            localStorage.setItem('quiz-users',JSON.stringify(users));
+        };
+        const resetBoxes=()=>{
+            nameBox.value = "";
+            userBox.value = "";
+            emailBox.value = "";
+            dateBox.value = "";
+            passBox.value = "";
+            conpPassBox.value = "";
+        };
+        const validateForm = ()=>{
+            if(validateName() && validateUserName() && validateEmail() && validateDob() && validatePass() && validateConPass()){
+                return true;
+            }
+            return false;
+        };
+
+        const validateName=()=>{
+            // Validation of Name
+            if(nameBox.value == "" || nameBox.value.length < 5){
+                document.getElementById('descriptionName').innerText = "Too Short";
+                setTimeout(()=>{
+                    document.getElementById('descriptionName').innerText = "";
+                },5000);
+                return false;
+            }else if(nameBox.value.length >=50){
+                document.getElementById('descriptionName').innerText = "Too Long";
+                setTimeout(()=>{
+                    document.getElementById('descriptionName').innerText = "";
+                },5000);
+                return false;
+            }else{
+                document.getElementById('descriptionName').innerText = "";
+            }
+            return true;
+        };
+        const validateUserName=()=>{
+            // Validation of User Name
+            if(userBox.value == "" || userBox.value.length < 5){
+                document.getElementById('descriptionUser').innerText = "Too Short";
+                setTimeout(()=>{
+                    document.getElementById('descriptionUser').innerText = "";
+                },5000);
+                return false;
+            }else if(userBox.value.length >=50){
+                document.getElementById('descriptionUser').innerText = "Too Long";
+                setTimeout(()=>{
+                    document.getElementById('descriptionUser').innerText = "";
+                },5000);
+                return false;
+            }else if(checkUser(userBox.value)){
+                document.getElementById('descriptionUser').innerText = "User with this username already exists";
+                setTimeout(()=>{
+                    document.getElementById('descriptionUser').innerText = "";
+                },5000);
+                return false;
+            }else{
+                document.getElementById('descriptionUser').innerText = "";
+            }
+            return true;
+        };
+        const validateEmail=()=>{
+            // Validation of Email
+            if(emailBox.value == "" ){
+                document.getElementById('descriptionEmail').innerText = "Enter an email";
+                setTimeout(()=>{
+                    document.getElementById('descriptionEmail').innerText = "";
+                },5000);
+                return false;
+            }else if(!emailBox.value.includes('@')){
+                document.getElementById('descriptionEmail').innerText = "Not a valid Email";
+                setTimeout(()=>{
+                    document.getElementById('descriptionEmail').innerText = "";
+                },5000);
+                return false;
+            }else if(checkEmail(emailBox.value)){
+                document.getElementById('descriptionEmail').innerText="This Email is already registered!";
+                setTimeout(()=>{
+                    document.getElementById('descriptionEmail').innerText="";
+                },5000);
+                return false;
+            }else{
+                document.getElementById('descriptionEmail').innerText="";
+            }
+            return true;
+        }
+        const validateDob=()=>{
+            // Validation of Date of Birth
+            if(dateBox.value == "" ){
+                document.getElementById('descriptionDate').innerText = "Select a date";
+                setTimeout(()=>{
+                    document.getElementById('descriptionDate').innerText = "";
+                },5000);
+                return false;
+            }else{
+                document.getElementById('descriptionDate').innerText = "";
+            }
+            return true;
+        };
+        const validatePass=()=>{
+            // Validation of Passwords
+            if(passBox.value == "" || passBox.value.length<5){
+                document.getElementById('descriptionPass').innerText = "Too Short";
+                setTimeout(()=>{
+                    document.getElementById('descriptionPass').innerText = "";
+                },5000);
+                return false;
+            }else if(! /[a-zA-Z]/.test(passBox.value)){
+                document.getElementById('descriptionPass').innerText = "It must have alphabets";
+                setTimeout(()=>{
+                    document.getElementById('descriptionPass').innerText = "";
+                },5000);
+                return false;
+            }else if(! /\d/.test(passBox.value)){
+                document.getElementById('descriptionPass').innerText = "It must have numbers";
+                setTimeout(()=>{
+                    document.getElementById('descriptionPass').innerText = "";
+                },5000);
+                return false;
+            }else if(! /[^a-zA-Z\d\s]/.test(passBox.value)){
+                document.getElementById('descriptionPass').innerText = "It must have atleast one symbol";
+                setTimeout(()=>{
+                    document.getElementById('descriptionPass').innerText = "";
+                },5000);
+                return false;
+            }else if( /\s/.test(passBox.value)){
+                document.getElementById('descriptionPass').innerText = "It should not have space";
+                setTimeout(()=>{
+                    document.getElementById('descriptionPass').innerText = "";
+                },5000);
+                return false;
+            }else{
+                document.getElementById('descriptionPass').innerText = "";
+            }
+            return true;
+        };
+        const validateConPass=()=>{
+            // Validation for confirm Password;
+            if(conpPassBox.value != passBox.value){
+                document.getElementById('descriptionConPass').innerText = " Both Passwords do not match";
+                setTimeout(()=>{
+                    document.getElementById('descriptionConPass').innerText = "";
+                },5000);
+                return false;
+            }else{
+                document.getElementById('descriptionConPass').innerText = "";
+            }
+            return true;
+        };
+
+        const checkEmail = (m)=>{
+            let flag = false;
+            users.map(u=>{
+                if(u.email == m){
+                    flag= true;
+                }
+            })
+            return flag;
+        };
+        const checkUser = (un)=>{
+            let flag = false;
+            users.map(u=>{
+                if(u.username == un){
+                    flag= true;
+                }
+            })
+            return flag;
+        };
+
+    </script>
+</body>
+</html>

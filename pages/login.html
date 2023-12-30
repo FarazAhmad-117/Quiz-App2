@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="login.css">
+    <link rel="shortcut icon" href="../images/favicon.jpg" type="image/x-icon">
+    <title>Quiz App - LogIn</title>
+</head>
+<body>
+    <div class="main">
+        <div class="wrapper">
+            <div class="header">
+                <h2>Quiz App</h2>
+                <h3>Enter details to login:</h3>
+            </div>
+            <form>
+                <div class="inBox">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" placeholder="Username">
+                    <p id="descriptionUser"></p>
+                </div>
+                <div class="inBox">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" placeholder="Password">
+                    <p id="descriptionPass"></p>
+                </div>
+                <div class="showpassBox">
+                    <Label for="showpass">Show Password</Label>
+                    <input type="checkbox" name="show" id="showpass">
+                </div>
+                <button type="submit">Login</button>
+            </form>
+            <p class="ending-line">A new User? <a href="signup.html">Signup</a></p>
+        </div>
+    </div>
+    <script>
+        const showPass = document.getElementById('showpass');
+        const showPassBox = document.querySelector('.showpassBox');
+        const passBox = document.getElementById('password');
+        const userBox = document.getElementById('username');
+        showPassBox.addEventListener("click",()=>{
+            if(showPass.checked == true){
+                passBox.type = "text";
+            }else{
+                passBox.type = "password";
+            }
+        })
+    </script>
+</body>
+</html>

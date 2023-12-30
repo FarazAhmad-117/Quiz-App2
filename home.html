@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App - Home</title>
+    <link rel="shortcut icon" href="images/favicon.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="main">
+        <header>
+            <nav class="nav-primary">
+                <div class="text-box">
+                    <p>This website is registered under copyright act &copy;2024</p>
+                </div>
+                <div class="button-box">
+                    <button onclick='Navigate("pages/login.html")'>LogIn</button>
+                    <button onclick="Navigate('pages/signup.html')">SignUp</button>
+                </div>
+            </nav>
+            <nav class="nav-secondary">
+                <div class="logo">
+                    <h2>Quiz App</h2>
+                </div>
+                <ul class="menu">
+                    <li>Home</li>
+                    <li>Quiz</li>
+                    <li>Settings</li>
+                    <li>About us</li>
+                    <li>Contact</li>
+                </ul>
+            </nav>
+        </header>
+        <div class="content">
+            <div class="not-loggedin">
+                <h2>I am sorry you need to LogIn or SignUp First.</h2>
+                <p>Click here if you already have an account <a href="pages/login.html">Signin</a></p>
+                <p>Otherwise Click here <a href="pages/signup.html">Signup</a></p>
+                <img src="images/Feeling sorry.gif" alt="">
+            </div>
+            <div class="loggedin">
+                <section class="user-info">
+                    <div class="greetings">
+                        <h2>Hello <span id="userName"> Faraz Ahmad </span>🙌 <br>Hope you are doing fine</h2>
+                        <img src="images/hello.jpg" alt="">
+                    </div>
+                    <div class="quiz-available">
+                        <h1>Available Quizes</h1>
+                        <div class="quiz-box"></div>
+                    </div>
+                </section>
+                <section class="quiz-info">
+
+                </section>
+            </div>
+        </div>
+    </div>
+    <script>
+        const loggedInBox = document.querySelector('.loggedin');
+        const notLoggedInBox = document.querySelector('.not-loggedin');
+        const Navigate=(loc)=>{
+            window.location.href = loc;
+        };
+        const checkLoggedIn=()=>{
+            let data = localStorage.getItem('quiz-log-in');
+            return data === "true";
+        };
+        const loadPageProperly=()=>{
+            if(checkLoggedIn()){
+                loggedInBox.style.display = "block";
+                notLoggedInBox.style.display = "none";
+            }else{
+                loggedInBox.style.display = "none";
+                notLoggedInBox.style.display = "block";
+            }
+        };
+        const logout=()=>{
+            localStorage.setItem('quiz-log-in',false);
+            loadPageProperly();
+        };
+        loadPageProperly();
+    </script>
+</body>
+</html>
