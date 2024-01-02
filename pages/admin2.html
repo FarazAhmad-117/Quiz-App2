@@ -7,7 +7,62 @@
     <link rel="stylesheet" href="admin2.css">
     <link rel="shortcut icon" href="../images/favicon.jpg" type="image/x-icon">
 </head>
-<body>
-    
+<body onload="loadPageProperly()">
+    <div class="main">
+        <header>
+            <h2>Quiz App <span>Admin Portal</span></h2>
+        </header>
+        <div class="greetings">
+            <h2>Hello dear <span id="adminName">Admin Name</span>🙌 </h2>
+            <img src="../images/admin-hello.png" alt="">
+        </div>
+        <div class="users">
+            <h2>Users:</h2>
+            <div class="user-box">
+            </div>
+        </div>
+        <div class="quizes">
+            <h2>Quizes</h2>
+            <div class="quiz-box">
+                <div class="quiz-adder"><img src="../images/add.png" alt=""> Add A New Quiz</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const adminName = document.getElementById('adminName');
+        const usersBox = document.querySelector('.users > .user-box');
+        let currentAdmin = {};
+        let users = [];
+        const loadPageProperly=()=>{
+            loadCurrentAdmin();
+            loadUsers();
+            showUsers();
+            adminName.innerText = currentAdmin.name;
+        }
+        const loadCurrentAdmin = ()=>{
+            currentAdmin = JSON.parse(localStorage.getItem('quiz-current-admin'));
+        };
+        const loadUsers=()=>{
+            users = JSON.parse(localStorage.getItem('quiz-users'));
+        };
+        const showUsers = ()=>{
+            if(users == null || users.length === 0){
+                usersBox.innerHTML = `<h3>No Users are register till this moment.<h3>`;
+                return;
+            }
+            htmlContent = "";
+            users.map(u=>{
+                htmlContent += `<div class="usercard">
+                    <button class="del-btn">X</button>
+                    <p class="name">Name: <span>${u.name}</span></p>
+                    <p class="username">UserName: <span>${u.username}</span></p>
+                    <p class="email">Email: <span>${u.email}</span></p>
+                    <p class="dob">Date of Birth: <span>${u.dateOfBirth}</span></p>
+                    <p class="password">Password: <span>${u.password}</span></p>
+                </div>`;
+            })
+            usersBox.innerHTML = htmlContent;
+        };
+    </script>
 </body>
 </html>

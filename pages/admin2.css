@@ -1,0 +1,161 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins',sans-serif;
+    box-sizing: border-box;
+}
+body,html{
+    height: 100%;
+    width: 100%;
+}
+header{
+    width: 100%;
+    min-height: 50px;
+    background-color: rgb(40, 40, 109);
+    color: #f1f1f1;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.greetings{
+    width: 100%;
+    min-height: 20vh;
+    background-color: rgb(59, 59, 157);
+    color: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.greetings>img{
+    width: 20vw;
+}
+.greetings>h2{
+    font-size: 4vw;
+}
+.users{
+    min-height: 20vh;
+    width: 100%;
+    background-color:rgba(59, 59, 157 ,.1);
+    padding: 15px 25px 45px;
+}
+.users>h2{
+    margin-top: 30px;
+    padding: 5px 25px;
+    color: #444;
+    font-size: 32px;
+    margin-left: 3vw;
+}
+.users>.user-box{
+    background-color: #fff;
+    margin: 10px 25px;
+    height: 50vh;
+    padding: 15px 25px;
+    border-radius: 15px;
+    overflow: auto;
+}
+.users>.user-box::-webkit-scrollbar{
+    width: 8px;
+}
+.users>.user-box::-webkit-scrollbar-track{
+    background-color: rgb(229, 218, 240);
+    border-radius: 12px;
+}
+.users>.user-box::-webkit-scrollbar-thumb{
+    background: linear-gradient(rebeccapurple,rgb(169, 127, 210),rebeccapurple);
+    border-radius: 12px;
+}
+.users>.user-box>.usercard{
+    width: 100%;
+    background: #ededed66;
+    border: 1px solid #ddd;
+    border-radius: 13px;
+    padding: 5px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 7px;
+    flex-wrap: wrap;
+    margin: 4px auto;
+    position: relative;
+}
+.user-box>.usercard>p{
+    min-width: 40%;
+    font-size: 17px;
+    font-weight: 700;
+    color: #222;
+}
+.user-box>.usercard>p>span{
+    font-size: 18px;
+    font-weight: 100;
+    color: #444;
+}
+.user-box>.usercard>button{
+    display: inline;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding:1px 5px;
+    cursor: pointer;
+    background-color: red;
+    border: 1px solid red;
+    color: #fff;
+    font-weight: 800;
+    font-size: 15px;
+    border-radius: 2px;
+    transition: all ease-in-out .25s;
+}
+.user-box>.usercard>button:hover{
+    background-color: transparent;
+    color: red;
+}
+.user-box>h3{
+    font-size: 35px;
+    color: rgb(188, 179, 240);
+    text-align: center;
+}
+.quizes{
+    min-height: 100vh;
+    padding: 20px 25px;
+    padding-bottom: 10vh;
+}
+.quizes>h2{
+    margin-top: 5vh;
+    font-size: 3.5vw;
+    font-weight: 200;
+    text-align: right;
+    padding-right: 4vw;
+    color: rgb(59, 59, 157);
+}
+.quizes>.quiz-box{
+    height: 80vh;
+    background-color: rgb(241, 234, 247);
+    width: 100%;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 2px solid #aaa;
+}
+.quizes>.quiz-box>.quiz-adder{
+    background-color: #f1f1f1;
+    height: 10vh;
+    font-size: 22px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    justify-content: center;
+    transition: all .25s ease-in-out;
+    border-bottom: 2px solid #aaa;
+}
+.quizes>.quiz-box>.quiz-adder:hover{
+    background-color: rgb(188, 179, 240);
+    color: rgb(40, 40, 109);
+    font-size: 24px;
+    text-decoration: underline;
+}
+.quiz-adder>img{
+    width: 10vh;
+    margin-right: 3vw;
+}
+
+
