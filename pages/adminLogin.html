@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App - Admin Login</title>
     <link rel="stylesheet" href="login.css">
-    <link rel="shortcut icon" href="../images/favicon.jpg" type="image/x-icon">
-    <title>Quiz App - LogIn</title>
 </head>
 <body>
     <div class="main">
         <div class="wrapper">
             <div class="header">
                 <h2>Quiz App</h2>
-                <h3>Enter details to login:</h3>
+                <h3>Enter details to login as an Administrator:</h3>
             </div>
             <form>
                 <div class="inBox">
@@ -32,7 +31,7 @@
                 <button class="login-btn" >Login</button>
             </form>
             <p class="ending-line">A new User? <a href="signup.html">Signup</a></p>
-            <p class="ending-line">Are you Admin? <a href="adminLogin.html" >Admin Login</a></p>
+            <p class="ending-line">Not an Admin? <a href="login.html">Login</a></p>
         </div>
     </div>
     <script>
@@ -50,23 +49,30 @@
         })
         logInBtn.addEventListener('click',(e)=>{
             e.preventDefault();
-            loadUsers();
+            loadAdmins();
             if(LoginFunction()){
-                window.location.href = "../home.html";
+                console.log('You logged in as admin');
+                window.location.href = "admin2.html";
             }else{
                 userBox.value = "";
                 passBox.value = "";
                 setLoggedOut();
             }
         });
-        let users = [];
-        const loadUsers =()=>{
-            let data = localStorage.getItem('quiz-users');
-            users = JSON.parse(data);
+        // let admins = [{
+        //     name:"Faraz Ahmad",
+        //     username: "faraz",
+        //     email: "farazahmad31048@gmail.com",
+        //     password: "faraz_123"
+        // }];
+        let admins = [];
+        const loadAdmins =()=>{
+            let data = localStorage.getItem('quiz-admins');
+            admins = JSON.parse(data);
         };
         const checkEmail = (m)=>{
             let flag = -1;
-            users.map((u,i)=>{
+            admins.map((u,i)=>{
                 if(u.email == m){
                     flag= i;
                 }
@@ -75,7 +81,7 @@
         };
         const checkUser = (m)=>{
             let flag = -1;
-            users.map((u,i)=>{
+            admins.map((u,i)=>{
                 if(u.username == m){
                     flag= i;
                 }
@@ -83,25 +89,25 @@
             return flag;
         };
         const checkPass = (idx,pas)=>{
-            return users[idx].password === pas;
+            return admins[idx].password === pas;
         };
         const setLoggedIn=()=>{
-            localStorage.setItem('quiz-log-in',true);
+            localStorage.setItem('quiz-admin-log-in',true);
         }
         const setLoggedOut=()=>{
-            localStorage.setItem('quiz-log-in',false);
+            localStorage.setItem('quiz-admin-log-in',false);
         }
         const LoginFunction = ()=>{
             if(checkEmail(userBox.value)!= -1){
                 if(checkPass(checkEmail(userBox.value),passBox.value)){
                     setLoggedIn();
-                    saveCurrentUser(checkEmail(userBox.value));
+                    saveCurrentAdmin(checkEmail(userBox.value));
                     return true;
                 }
             }else if(checkUser(userBox.value)!= -1){
                 if(checkPass(checkUser(userBox.value),passBox.value)){
                     setLoggedIn();
-                    saveCurrentUser(checkUser(userBox.value));
+                    saveCurrentAdmin(checkUser(userBox.value));
                     return true;
                 }
             }
@@ -113,8 +119,8 @@
             },5000);
             return false;
         };
-        const saveCurrentUser = (idx)=>{
-            localStorage.setItem('quiz-current-user',JSON.stringify(users[idx]));
+        const saveCurrentAdmin = (idx)=>{
+            localStorage.setItem('quiz-current-admin',JSON.stringify(admins[idx]));
         };
     </script>
 </body>

@@ -45,7 +45,7 @@ body,html{
 }
 .inBox{
     width: 100%;
-    padding: 10px 15px;
+    padding: 0px 15px;
 }
 .inBox>label{
     font-size: 15px;
@@ -57,16 +57,25 @@ label{
 .inBox>input{
     max-width: 100%;
     min-height: 30px;
-    padding: 5px 10px;
+    width: 90%;
+    display: block;
+    padding: 10px 15px;
     border: 1px solid #222;
     border-radius: 5px;
     outline: none;
-    margin: 3px 25px;
+    margin: 3px auto;
 }
 .inBox>input:focus{
     outline: 2px solid #1e8bff;
     border: 0;
     color: #104379;
+}
+.inBox>p{
+    width: 100%;
+    font-size: 14px;
+    color: red;
+    min-height: 15px;
+    text-align: center;
 }
 .showpassBox{
     width: 100%;

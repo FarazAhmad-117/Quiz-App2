@@ -142,15 +142,28 @@ header>nav.nav-secondary>.menu>li:hover{
 }
 .quiz-available{
     min-height: 40vh;
-    padding: 12px 0px;
 }
 .quiz-available>h1{
-    margin: 10px 0px;
+    margin: 0px 0px 10px;
     background-color: #f1f1f1;
     padding: 15px 25px;
     font-size: 32px;
     color: #555;
     border-top: 2px solid #222;
     border-bottom: 2px solid #222;
+}
+.quiz-available> .available-quiz-box > .error{
+    display: block;
+}
+.quiz-available> .available-quiz-box> .error>  h3{
+    font-size: 32px;
+    text-align: center;
+    padding: 12px 15px;
+    color: #b288ed;
+}
+.quiz-available> .available-quiz-box> .error>  img{
+    display: block;
+    margin: -40px auto 10px;
+    height: 30vw;
 }
 

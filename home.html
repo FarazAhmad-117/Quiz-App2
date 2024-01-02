@@ -42,12 +42,17 @@
             <div class="loggedin">
                 <section class="user-info">
                     <div class="greetings">
-                        <h2>Hello <span id="userName"> Faraz Ahmad </span>🙌 <br>Hope you are doing fine</h2>
+                        <h2>Hello <span id="userName"> Dear User </span>🙌 <br>Hope you are doing fine</h2>
                         <img src="images/hello.jpg" alt="">
                     </div>
                     <div class="quiz-available">
                         <h1>Available Quizes</h1>
-                        <div class="quiz-box"></div>
+                        <div class="available-quiz-box">
+                            <div class="error">
+                                <h3>I am Sorry no Quizes are currently Available!</h3>
+                                <img src="images/not-found.png" alt="">
+                            </div>
+                        </div>
                     </div>
                 </section>
                 <section class="quiz-info">
@@ -59,17 +64,25 @@
     <script>
         const loggedInBox = document.querySelector('.loggedin');
         const notLoggedInBox = document.querySelector('.not-loggedin');
+        const navPrimaryButtons = document.querySelector('.nav-primary>.button-box');
+        const userName = document.getElementById('userName');
+        const availableQuizBox = document.querySelector('.available-quiz-box');
+        const availableQuizErrorBox = document.querySelector('.available-quiz-box>.error');
         const Navigate=(loc)=>{
             window.location.href = loc;
         };
+        let currentUser;
         const checkLoggedIn=()=>{
             let data = localStorage.getItem('quiz-log-in');
             return data === "true";
         };
         const loadPageProperly=()=>{
             if(checkLoggedIn()){
+                loadCurrentUser();
                 loggedInBox.style.display = "block";
                 notLoggedInBox.style.display = "none";
+                navPrimaryButtons.innerHTML = `<button onclick="logout()">Log out</button>`;
+                userName.innerText = currentUser.name;
             }else{
                 loggedInBox.style.display = "none";
                 notLoggedInBox.style.display = "block";
@@ -77,9 +90,16 @@
         };
         const logout=()=>{
             localStorage.setItem('quiz-log-in',false);
-            loadPageProperly();
+            window.location.href = window.location.href;
         };
+        const loadCurrentUser=()=>{
+            currentUser = JSON.parse(localStorage.getItem('quiz-current-user'));
+            console.log(currentUser);
+        }
         loadPageProperly();
+
+
+
     </script>
 </body>
 </html>
