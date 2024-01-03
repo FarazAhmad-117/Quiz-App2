@@ -8,6 +8,93 @@
     <link rel="shortcut icon" href="../images/favicon.jpg" type="image/x-icon">
 </head>
 <body>
-    <h1>Quiz Editor</h1>
+    <div class="main">
+        <header>
+            <h1>Quiz App</h1>
+        </header>
+        <div class="det-box">
+            <h2>Make A new Quiz</h2>
+            <div class="details">
+                <div class="name-box">
+                    <label for="quiz-name">Name:</label>
+                    <input type="text" id="quiz-name" placeholder="Quiz Name" required>
+                </div>
+                <div class="date-box">
+                    <label for="quiz-date">Date:</label>
+                    <input type="date" id="quiz-date" placeholder="Date of quiz" required>
+                </div>
+                <div class="time-box">
+                    <label for="quiz-time">Time:</label>
+                    <input type="number" id="quiz-time" placeholder="Quiz Time in minutes" required>
+                </div>
+                <div class="description-box">
+                    <label for="quiz-description">Description:</label>
+                    <textarea id="quiz-description" cols="55" rows="10" placeholder="Description about the quiz" ></textarea>
+                </div>
+                <button class="create-btn">Create</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        const nameBox = document.getElementById('quiz-name');
+        const dateBox = document.getElementById('quiz-date');
+        const timeBox = document.getElementById('quiz-time');
+        const descrBox = document.getElementById('quiz-description');
+        const createBtn = document.querySelector('.create-btn');
+        let quizes = [];
+        let totalQuizes = 0;
+        let newQuiz = {};
+        createBtn.addEventListener('click',()=>{
+            if(validate()){
+                loadQuiz();
+                createQuiz();
+                clearFields();
+                saveQuiz();
+                Navigate('./admin2.html');
+            }
+        });
+        const validate=()=>{
+            if(nameBox.value.length === 0){
+                alert('Name is not provided!');
+                return false;
+            }
+            if(dateBox.value.length === 0){
+                alert('Date is not provided!');
+                return false;
+            }
+            if(timeBox.value.length === 0 ){
+                alert('Time is not provided!');
+                return false;
+            }
+            return true;
+        }
+        const Navigate=(src)=>{
+            window.location.href = src;
+        };
+        const clearFields=()=>{
+            nameBox.value="";
+            descrBox.value="";
+            dateBox.value="";
+            timeBox.value="";
+        }
+        const createQuiz=()=>{
+            newQuiz.name = nameBox.value;
+            newQuiz.id = totalQuizes+1;
+            newQuiz.totalQuestions = 0;
+            newQuiz.date = dateBox.value;
+            newQuiz.time = timeBox.value;
+            newQuiz.status = "Pending";
+            newQuiz.description = descrBox.value.length>0?descrBox.value : "No Description Provided!";
+            newQuiz.questions = [];
+        };
+        const loadQuiz=()=>{
+            quizes = JSON.parse(localStorage.getItem('quiz-app-quiz-array'));
+            totalQuizes = quizes.length;
+        };
+        const saveQuiz=()=>{
+            quizes = [...quizes,newQuiz];
+            localStorage.setItem('quiz-app-quiz-array',JSON.stringify(quizes));
+        };
+    </script>
 </body>
 </html>

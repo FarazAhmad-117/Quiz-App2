@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App Edit Quiz</title>
+</head>
+<body onload="loadPageProperly()">
+    <div class="main">
+        <h1>Quiz Editing Zone</h1>
+    </div>
+    <script>
+        let quizes = [];
+        let currentQuiz = {};
+        let quizIndex = -1;
+        const loadPageProperly=()=>{
+            loadCurrentQuiz();
+            loadQuizes();
+            quizIndex = currentQuiz.id - 1;
+        };
+        const loadCurrentQuiz=()=>{
+            currentQuiz = JSON.parse(localStorage.getItem('quiz-app-current-quiz'));
+        }
+        const loadQuizes=()=>{
+            quizes = JSON.parse(localStorage.getItem('quiz-app-quiz-array'));
+        };
+    </script>
+</body>
+</html>

@@ -56,6 +56,8 @@
         const adminName = document.getElementById('adminName');
         const usersBox = document.querySelector('.users > .user-box');
         const quizAdder = document.querySelector('.quiz-adder');
+        const errorBox = document.querySelector('.quiz-container > .errorBox');
+        const quizBox = document.querySelector('.quiz-container > .content');
         quizAdder.addEventListener('click',()=>{
             setCurrentQuiz(null); // If null then new quiz else edit;
             Navigate('./quizEditor.html');
@@ -63,22 +65,144 @@
         const setCurrentQuiz = (data)=>{
             localStorage.setItem('quiz-app-current-quiz',JSON.stringify(data));
         }
+        const loadPageProperly=()=>{
+            loadCurrentAdmin();
+            loadUsers();
+            showUsers();
+            markDeleteUsers();
+            adminName.innerText = currentAdmin.name;
+            loadQuizes();
+            markDeleteQuiz();
+            markEditQuiz();
+        }
         const Navigate=(src)=>{
             window.location.href = src;
         }
         let currentAdmin = {};
         let users = [];
-        const loadPageProperly=()=>{
-            loadCurrentAdmin();
+        let quizes = [];
+        const loadQuizes=()=>{
+            quizes = JSON.parse(localStorage.getItem('quiz-app-quiz-array'));
+            if(quizes !== null && quizes.length >= 0){
+                errorBox.style.display = "none";
+                showQuizes();
+            }else{
+                errorBox.style.display = "block";
+            }
+        }
+        const saveQuizes=()=>{
+            localStorage.setItem('quiz-app-quiz-array',JSON.stringify(quizes));
+        }
+        const markDeleteUsers=()=>{
+            let btns =Array.from(document.querySelectorAll('.usercard>.del-btn'));
+            if(btns.length > 0){
+                btns.map((b,i)=>{
+                    b.addEventListener('click',()=>{
+                        let alert = showError('Do you really want to delete user named '+ users[i].name + ' ?');
+                        alert.addEventListener('click',(e)=>{
+                            if(e.target.className === 'cancel' || e.target.className === 'alert-wrap'){
+                                alert.remove();
+                            }else if(e.target.className ==='ok'){
+                                deleteUser(i);
+                                alert.remove();
+                            }
+                        })
+                    })
+                });
+            }
+        }
+        const markDeleteQuiz=()=>{
+            let btns =Array.from(document.querySelectorAll('.quiz-card>.buttons>.del-btn'));
+            if(btns.length>0){
+                btns.map((b,i)=>{
+                    b.addEventListener('click',()=>{
+                        let alert = showError('Do you really want to delete quiz named '+ quizes[i].name + ' ?');
+                        alert.addEventListener('click',(e)=>{
+                            if(e.target.className === 'cancel' || e.target.className === 'alert-wrap'){
+                                alert.remove();
+                            }else if(e.target.className ==='ok'){
+                                deleteQuiz(i);
+                                alert.remove();
+                            }
+                        })
+                    })
+                });
+            }
+        }
+        const markEditQuiz=()=>{
+            let btns =Array.from(document.querySelectorAll('.quiz-card>.buttons>.edit-btn'));
+            if(btns.length>0){
+                btns.map((b,i)=>{
+                    b.addEventListener('click',()=>{
+                        let alert = showError('Do you really want to edit quiz named '+ quizes[i].name + ' ?');
+                        alert.addEventListener('click',(e)=>{
+                            if(e.target.className === 'cancel' || e.target.className === 'alert-wrap'){
+                                alert.remove();
+                            }else if(e.target.className ==='ok'){
+                                editQuiz(i);
+                                alert.remove();
+                            }
+                        })
+                    })
+                });
+            }
+        }
+        const editQuiz=(i)=>{
+            setCurrentQuiz(quizes[i]);
+            Navigate('./editQuiz.html');
+        }
+        const deleteQuiz=(i)=>{
+            quizes.splice(i,1);
+            saveQuizes();
+            loadQuizes();
+        }
+        const deleteUser=(i)=>{
+            users.splice(i,1);
+            saveUsers();
             loadUsers();
             showUsers();
-            adminName.innerText = currentAdmin.name;
+        }
+        const showError=(msg)=>{
+            let alert = document.createElement('div');
+            alert.className = "alert-wrap";
+            alert.innerHTML = `<div class="alert">
+                <h2>${msg}</h2>
+                <div class="buttons">
+                    <button class="cancel">Cancel</button>
+                    <button class="ok">Ok</button>
+                </div>
+            </div>`;
+            let main = document.querySelector('.main');
+            main.appendChild(alert);
+            return alert;
+        }
+        const showQuizes=()=>{
+            let htmlContent = "";
+            quizes.map(q=>{
+                htmlContent += `<div class="quiz-card">
+                            <div class="buttons">
+                                <button class="edit-btn"><img src="../images/edit.png" width="20px"  height="20px"></button>
+                                <button class="del-btn">X</button>
+                            </div>
+                            <h2>${q.name}</h2>
+                            <p>Quiz id: <span>${q.id}</span></p>
+                            <p>Total Questions: <span>${q.totalQuestions}</span></p>
+                            <p>Date of Quiz: <span>${q.date}</span></p>
+                            <p>Time of Quiz: <span>${q.time} minutes</span></p>
+                            <p>Status: <span>${q.status}</span></p>
+                            <p>Discription: <span>${q.description}</span></p>
+                        </div>`;
+            })
+            quizBox.innerHTML = htmlContent;
         }
         const loadCurrentAdmin = ()=>{
             currentAdmin = JSON.parse(localStorage.getItem('quiz-current-admin'));
         };
         const loadUsers=()=>{
             users = JSON.parse(localStorage.getItem('quiz-users'));
+        };
+        const saveUsers=()=>{
+            localStorage.setItem('quiz-users',JSON.stringify(users));
         };
         const showUsers = ()=>{
             if(users == null || users.length === 0){
@@ -88,7 +212,7 @@
             htmlContent = "";
             users.map(u=>{
                 htmlContent += `<div class="usercard">
-                    <button class="del-btn">X</button>
+                    <button class="del-btn" >X</button>
                     <p class="name">Name: <span>${u.name}</span></p>
                     <p class="username">UserName: <span>${u.username}</span></p>
                     <p class="email">Email: <span>${u.email}</span></p>
@@ -101,3 +225,4 @@
     </script>
 </body>
 </html>
+

@@ -59,6 +59,8 @@
                 setLoggedOut();
             }
         });
+        // If you are facing the issue of not being able to register first admin to make access to admin portal simply 
+        // uncomment this admins below and comment the other array and first time just run code by saveAdmin() function call only 
         // let admins = [{
         //     name:"Faraz Ahmad",
         //     username: "faraz",
@@ -69,6 +71,9 @@
         const loadAdmins =()=>{
             let data = localStorage.getItem('quiz-admins');
             admins = JSON.parse(data);
+        };
+        const saveAdmins =()=>{
+            localStorage.setItem('quiz-admins',JSON.stringify(admins));
         };
         const checkEmail = (m)=>{
             let flag = -1;
