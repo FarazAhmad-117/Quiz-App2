@@ -24,13 +24,48 @@
         <div class="quizes">
             <h2>Quizes</h2>
             <div class="quiz-box">
-                <div class="quiz-adder"><img src="../images/add.png" alt=""> Add A New Quiz</div>
+                <div class="quiz-adder"><img src="../images/add.png" > Add A New Quiz</div>
+                <div class="quiz-container">
+                    <div class="errorBox">
+                        <h3>No Quizes Available!</h3>
+                        <img src='../images/notFound.png' alt="">
+                    </div>
+                    <div class="content">
+                        <div class="quiz-card">
+                            <div class="buttons">
+                                <button class="edit-btn"><img src="../images/edit.png" width="20px"  height="20px"></button>
+                                <button class="del-btn">X</button>
+                            </div>
+                            <h2>Name of Quiz</h2>
+                            <p>Quiz id: <span>Unique Id</span></p>
+                            <p>Total Questions: <span>00</span></p>
+                            <p>Date of Quiz: <span>Jan 6 2024</span></p>
+                            <p>Time of Quiz: <span>10 minutes</span></p>
+                            <p>Status: <span>Pending</span></p>
+                            <p>Discription: <span>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Numquam, adipisci.</span></p>
+                        </div>
+                        <div class="quiz-card"></div>
+                        <div class="quiz-card"></div>
+                        <div class="quiz-card"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <script>
         const adminName = document.getElementById('adminName');
         const usersBox = document.querySelector('.users > .user-box');
+        const quizAdder = document.querySelector('.quiz-adder');
+        quizAdder.addEventListener('click',()=>{
+            setCurrentQuiz(null); // If null then new quiz else edit;
+            Navigate('./quizEditor.html');
+        });
+        const setCurrentQuiz = (data)=>{
+            localStorage.setItem('quiz-app-current-quiz',JSON.stringify(data));
+        }
+        const Navigate=(src)=>{
+            window.location.href = src;
+        }
         let currentAdmin = {};
         let users = [];
         const loadPageProperly=()=>{
