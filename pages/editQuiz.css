@@ -7,15 +7,127 @@
 body,html{
     height: 100%;
     width: 100%;
-    background-color: #EEEEEE;
 }
 .main{
-    display: flex;
-    flex-direction: column;
     padding-bottom: 20vh;
+    width: 100%;
+    min-height: 100%;
     position: relative;
 }
-.wrapper{
+header{
+    min-height: 20vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rebeccapurple;
+}
+header>h1{
+    font-size: 42px;
+    padding: 25px 35px;
+    color: #fff;
+    text-shadow: 1px 1px 3px #000;
+}
+.quiz-dets{
+    padding: 10px 15px;
+    max-width: 800px;
+    width: 100%;
+    margin: 10px auto;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, .3);
+}
+.quiz-dets> div.description-box >label{
+    display: block;
+}
+.quiz-dets> div >label{
+    font-size: 18px;
+    color: #444;
+    font-weight: 200;
+    padding: 10px 15px;
+}
+.quiz-dets>div{
+    margin: 10px auto;
+    padding: 15px 20px;
+}
+.quiz-dets>div>textarea{
+    display: block;
+    margin: 0px auto 10px;
+    width: 50%;
+    padding: 10px 15px;
+    font-size: 16px;
+}
+.quiz-dets>div>input{
+    font-size: 16px;
+    padding: 7px 15px;
+    border-radius: 7px;
+    border:0;
+    outline: 1px solid #555;
+    width: 50%;
+    min-width: 200px;
+}
+.quiz-dets>div>input:focus{
+    outline: 2px solid rgb(39, 157, 241);
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+.save-btn {
+    --color1: #1a8516;
+    --color2: #236b19;
+    perspective: 1000px;
+    padding: 1em 1em;
+    background: linear-gradient(var(--color1), var(--color2));
+    border: none;
+    display: block;
+    margin: 0px auto 20px;
+    outline: none;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: #fff;
+    text-shadow: 0 10px 10px #000;
+    cursor: pointer;
+    transform: rotateX(70deg) rotateZ(30deg);
+    transform-style: preserve-3d;
+    transition: transform 0.5s;
+}
+.save-btn::before {
+    content: "";
+    width: 100%;
+    height: 15px;
+    background-color: var(--color2);
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    transform: rotateX(90deg);
+    transform-origin: bottom;
+}
+.save-btn::after {
+    content: "";
+    width: 15px;
+    height: 100%;
+    background-color: var(--color1);
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: rotateY(-90deg);
+    transform-origin: right;
+}
+.save-btn:hover {
+    transform: rotateX(30deg) rotateZ(0);
+}
+.save-btn:active{
+    transform: scale(0.8);
+}
+
+
+.adder-wrapper{
     border: 1px solid #ccc;
     width: 100%;
     height: 100%;
@@ -28,7 +140,7 @@ body,html{
     border-left: 7px solid #2C9D30;
     border-right: 7px solid #2C9D30;
 }
-.wrapper>h2{
+.adder-wrapper>h2{
     font-size: 35px;
     font-weight: 600;
     padding: 10px 20px;
@@ -135,10 +247,17 @@ body,html{
     max-width: 900px;
     margin: 25px auto 50px;
     padding: 10px 15px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, .3);
     border-radius: 7px;
     background-color: #fff;
     border-left: 5px solid #2C9D30;
     border-right: 5px solid #2C9D30;
+}
+.question-wrapper .no-question-error{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 .question-wrapper>h1{
     font-size: 42px;
@@ -229,8 +348,10 @@ body,html{
     width: 100vw;
     height: 100vh;
     position: fixed;
+    top: 0;
     background-color: rgba(0, 0, 0, 0.3);
     display: flex;
+    z-index: 4;
     justify-content: center;
     align-items: center;
 }

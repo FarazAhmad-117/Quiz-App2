@@ -16,7 +16,31 @@ header{
     text-align: center;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+}
+header>h2{
+    padding: 0px 25px;
+}
+header>h2>span{
+    color: rgb(169, 127, 210);
+}
+header>button{
+    margin: 0px 20px;
+    min-width: 70px;
+    font-size: 17px;
+    padding: 5px 9px;
+    background-color: transparent;
+    color: #fff;
+    border: 2px solid #fff;
+    border-radius: 22px;
+    cursor: pointer;
+}
+header>button:hover{
+    color: rebeccapurple;
+    background-color: #fff;
+}
+header>button:active{
+    transform: scale(.92);
 }
 .greetings{
     width: 100%;

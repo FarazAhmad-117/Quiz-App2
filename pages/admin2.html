@@ -11,6 +11,7 @@
     <div class="main">
         <header>
             <h2>Quiz App <span>Admin Portal</span></h2>
+            <button id="logout-btn" onclick="logOut()">Logout</button>
         </header>
         <div class="greetings">
             <h2>Hello dear <span id="adminName">Admin Name</span>🙌 </h2>
@@ -58,6 +59,7 @@
         const quizAdder = document.querySelector('.quiz-adder');
         const errorBox = document.querySelector('.quiz-container > .errorBox');
         const quizBox = document.querySelector('.quiz-container > .content');
+        const logoutBtn = document.getElementById('logout-btn');
         quizAdder.addEventListener('click',()=>{
             setCurrentQuiz(null); // If null then new quiz else edit;
             Navigate('./quizEditor.html');
@@ -146,6 +148,10 @@
                     })
                 });
             }
+        }
+        const logOut = ()=>{
+            localStorage.setItem('quiz-admin-log-in',false);
+            window.location.href = "../home.html";
         }
         const editQuiz=(i)=>{
             setCurrentQuiz(quizes[i]);

@@ -3,27 +3,409 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/985cafe0e1.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="editQuiz.css">
+    <link rel="shortcut icon" href="../images/favicon.jpg" type="image/x-icon">
     <title>Quiz App Edit Quiz</title>
 </head>
 <body onload="loadPageProperly()">
     <div class="main">
-        <h1>Quiz Editing Zone</h1>
+        <header>
+            <h1>Quiz Editor</h1>
+        </header>
+        <div class="quiz-dets">
+            <div class="name-box">
+                <label for="quiz-name">Name:</label>
+                <input type="text" id="quiz-name" placeholder="Quiz Name" required>
+            </div>
+            <div class="date-box">
+                <label for="quiz-date">Date:</label>
+                <input type="date" id="quiz-date" placeholder="Date of quiz" required>
+            </div>
+            <div class="time-box">
+                <label for="quiz-time">Time:</label>
+                <input type="number" id="quiz-time" placeholder="Quiz Time in minutes" required>
+            </div>
+            <div class="description-box">
+                <label for="quiz-description">Description:</label>
+                <textarea id="quiz-description" cols="55" rows="10" placeholder="Description about the quiz" ></textarea>
+            </div>
+            <button class="save-btn">Save</button>
+        </div>
+        <div class="adder-wrapper">
+            <h2>Quiz App - Question Adder</h2>
+            <form class="add-box">
+                <h3>Enter the new Question for Quiz: </h3>
+                <div class="add-question">
+                    <label for="question">Question : </label>
+                    <input type="text" id="question" name="question" placeholder="Enter Question Here.." required>
+                </div>
+                <div class="add-answer">
+                    <div class="ans-box">
+                        <label for="ans1">Answer 1 :</label>
+                        <input type="text" class="answer1" name="ans1" placeholder="Answer 1">
+                        <input type="checkbox" class="ans-check" name="ans1">
+                    </div>
+                    <div class="ans-box">
+                        <label for="ans2">Answer 2 :</label>
+                        <input type="text" class="answer2" name="ans2" placeholder="Answer 2">
+                        <input type="checkbox" class="ans-check" name="ans2">
+                    </div>
+                    <div class="ans-box">
+                        <label for="ans3">Answer 3 :</label>
+                        <input type="text" class="answer3" name="ans3" placeholder="Answer 3">
+                        <input type="checkbox" class="ans-check" name="ans3">
+                    </div>
+                    <div class="ans-box">
+                        <label for="ans4">Answer 4 :</label>
+                        <input type="text" class="answer4" name="ans4" placeholder="Answer 4">
+                        <input type="checkbox" class="ans-check" name="ans4">
+                    </div>
+                </div>
+                <button class="add-btn">Add</button>
+            </form>
+        </div>
+        <div class="question-wrapper">
+            <h1 class="heading">Questions available in quiz</h1>
+            <div class="old-questions">
+                <div class="question">
+                    <i class="fas fa-edit"></i>
+                    <div class="close-btn">X</div>
+                    <h2 class="quest">Question goes here</h2>
+                    <div class="answers">
+                        <div class="ans">
+                            <p>Answer 1</p>
+                            <span>Status</span>
+                        </div>
+                        <div class="ans">
+                            <p>Answer 1</p>
+                            <span>Status</span>
+                        </div>
+                        <div class="ans">
+                            <p>Answer 1</p>
+                            <span>Status</span>
+                        </div>
+                        <div class="ans">
+                            <p>Answer 1</p>
+                            <span>Status</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
     </div>
     <script>
+        let totalQuestions = 0;
+        let newQuestion = {};
+        let questions = [];
         let quizes = [];
         let currentQuiz = {};
         let quizIndex = -1;
+
+
+        const quizName = document.querySelector('#quiz-name');
+        const quizDate = document.querySelector('#quiz-date');
+        const quizTime = document.querySelector('#quiz-time');
+        const quizDesc = document.querySelector('#quiz-description');
+        const saveQuizBtn = document.querySelector('.quiz-dets>.save-btn');
+        const questionBox = document.querySelector('.old-questions');
+        const newQuestionBox = document.querySelector('#question');
+        const ans1 = document.querySelector('.answer1');
+        const ans2 = document.querySelector('.answer2');
+        const ans3 = document.querySelector('.answer3');
+        const ans4 = document.querySelector('.answer4');
+        const form = document.querySelector('.add-box');
+        const checkBoxes = Array.from(document.querySelectorAll('.ans-check'));
+        const addButton = document.querySelector('.add-btn');
+        
+        
         const loadPageProperly=()=>{
             loadCurrentQuiz();
             loadQuizes();
             quizIndex = currentQuiz.id - 1;
+            populateQuiz();
+            showAllQuestions();
         };
+        
+        
+        saveQuizBtn.addEventListener('click',()=>{
+            updateCurrQuiz();
+            saveCurrQuiz();
+            window.location.href = "./admin2.html";
+        })
+        
+        const updateCurrQuiz=()=>{
+            currentQuiz.name = quizName.value;
+            currentQuiz.date = quizDate.value;
+            currentQuiz.time = quizTime.value;
+            currentQuiz.description = quizDesc.value;
+            currentQuiz.totalQuestions = questions.length;
+            currentQuiz.questions = questions;
+        }
+        
+        const saveCurrQuiz=()=>{
+            quizes[quizIndex] = currentQuiz;
+            saveQuizes();
+        }
+        
+        const populateQuiz=()=>{
+            quizName.value = currentQuiz.name;
+            quizDate.value = currentQuiz.date;
+            quizTime.value = currentQuiz.time;
+            quizDesc.value = currentQuiz.description;
+        }
+        
         const loadCurrentQuiz=()=>{
             currentQuiz = JSON.parse(localStorage.getItem('quiz-app-current-quiz'));
         }
+        
         const loadQuizes=()=>{
             quizes = JSON.parse(localStorage.getItem('quiz-app-quiz-array'));
         };
+        
+        const saveQuizes=()=>{
+            localStorage.setItem('quiz-app-quiz-array',JSON.stringify(quizes));
+        };
+
+        const loadAllQuestions = () => {
+            questions = currentQuiz.questions;
+            totalQuestions = questions.length;
+        }
+        
+        const saveAllQuestion = () => {
+            currentQuiz.questions = questions;
+        }
+        
+        const showAllQuestions = () => {
+            loadAllQuestions();
+            let htmlContent = "";
+            if (questions.length == 0) {
+                htmlContent = `
+                <div class = "no-question-error">
+                <h2>Sorry No Questions were found in Database!</h2>
+                <img src="../images/notFound.png" alt="" />
+            </div>
+                `;
+            }else{
+                questions.map((q) => {
+                    htmlContent += `
+                    <div class="question" >
+                                <i class="fas fa-edit edit-btn"></i>
+                                <div class="close-btn">X</div>
+                                <h2 class="quest">${q.key + "- " + q.question}</h2>
+                                <div class="answers">
+                                    <div class="ans">
+                                        <p>${q.answers[0].txt}</p>
+                                        <span style="color:${q.answers[0].correct == true ? "green" : "red"};">${q.answers[0].correct == true ? "Correct" : "Wrong"}</span>
+                                    </div>
+                                    <div class="ans">
+                                        <p>${q.answers[1].txt}</p>
+                                        <span style="color:${q.answers[1].correct == true ? "green" : "red"};">${q.answers[1].correct == true ? "Correct" : "Wrong"}</span>
+                                    </div>
+                                    <div class="ans">
+                                        <p>${q.answers[2].txt}</p>
+                                        <span style="color:${q.answers[2].correct == true ? "green" : "red"};">${q.answers[2].correct == true ? "Correct" : "Wrong"}</span>
+                                    </div>
+                                    <div class="ans">
+                                        <p>${q.answers[3].txt}</p>
+                                        <span style="color:${q.answers[3].correct == true ? "green" : "red"};">${q.answers[3].correct == true ? "Correct" : "Wrong"}</span>
+                                    </div>
+                                </div>
+                            </div>
+                    `;
+                })
+            }
+            questionBox.innerHTML = htmlContent;
+            addFunctionalityToCloseBtn();
+            addFunctionalityToEditBtn();
+        }
+        
+        newQuestionBox.addEventListener("change", () => {
+            newQuestion.question = newQuestionBox.value;
+        })
+        
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+        })
+        
+        form.addEventListener("change", () => {
+            updateQuestion();
+        })
+        
+        const updateQuestion = () => {
+            newQuestion.key = totalQuestions + 1;
+            newQuestion.question = newQuestionBox.value;
+            newQuestion.answers = [{},{},{},{}];
+            newQuestion.answers[0].txt = ans1.value;
+            newQuestion.answers[1].txt = ans2.value;
+            newQuestion.answers[2].txt = ans3.value;
+            newQuestion.answers[3].txt = ans4.value;
+        }
+        
+        form.addEventListener("click", (e) => {
+            if (e.target.tagName === "INPUT" && e.target.type === "checkbox") {
+                checkBoxes.map((cb) => {
+                    cb.checked = false;
+                })
+                e.target.checked = true;
+            }
+        })
+        
+        const freeInputFields = () => {
+            newQuestionBox.value = " ";
+            ans1.value = " ";
+            ans2.value = " ";
+            ans3.value = " ";
+            ans4.value = " ";
+            checkBoxes.map((cb) => {
+                cb.checked = false;
+            })
+        }
+        
+        addButton.addEventListener("click", () => {
+            updateQuestion();
+            let checker = true;
+            checkBoxes.map((cb, cb2) => {
+                if (cb.checked === true) { checker = false; }
+                newQuestion.answers[cb2].correct = cb.checked;
+            })
+            if (checker) {
+                alert("Please select the correct Answer first! ");
+            } else {
+                questions = [...questions, newQuestion];
+                saveAllQuestion();
+                freeInputFields();
+                showAllQuestions();
+            }
+        })
+        
+        const setAllKeys = () => {
+            let count = 0;
+            questions.map(q => {
+                q.key = ++count;
+            })
+        }
+        
+        const removeQuestion = (i) => {
+            questions.splice(i, 1);
+            setAllKeys();
+            saveAllQuestion();
+            showAllQuestions();
+        }
+        
+        const addFunctionalityToCloseBtn = ()=>{
+            Array.from(document.querySelectorAll('.close-btn')).map((bt) => {
+                bt.addEventListener('click', (e) => {
+                    let key = Number(e.target.nextSibling.nextSibling.innerText[0]);
+                    deletePrompt("Do you really want to delete Q no "+ key + " ?",key);
+                })
+            })
+        }
+        
+        const addFunctionalityToEditBtn = () =>{
+            Array.from(document.querySelectorAll('.edit-btn')).map((bt) => {
+                bt.addEventListener('click', (e) => {
+                    let key = Number(e.target.nextSibling.nextSibling.nextSibling.nextSibling.innerText[0]);
+                    editPrompt("Do you really want to edit Q no "+ key + " ?",key);
+                })
+            })
+        };
+        
+        const deletePrompt = (msg,key) => {
+            let elem = document.createElement('div');
+            elem.className = "delete-prompt";
+            let htmlContent = `
+                <div div class="ans-box" >
+                    <h3>${msg}</h3>
+                    <button>No</button>
+                    <button class='yes'>Yes</button>
+                </div >`;
+            elem.innerHTML = htmlContent;
+            document.querySelector('.main').appendChild(elem);
+            elem.addEventListener('click',(e)=>{
+                if(e.target.tagName == 'BUTTON' && e.target.className== 'yes'){
+                    removeQuestion(key-1);
+                    elem.remove();
+                }else{
+                    elem.remove();
+                }
+            })
+        }
+        
+        const editPrompt = (msg,key) => {
+            let elem = document.createElement('div');
+            elem.className = "delete-prompt";
+            let htmlContent = `
+                <div div class="ans-box" >
+                    <h3>${msg}</h3>
+                    <button>No</button>
+                    <button class='yes'>Yes</button>
+                </div >`;
+            elem.innerHTML = htmlContent;
+            document.querySelector('.main').appendChild(elem);
+            elem.addEventListener('click',(e)=>{
+                if(e.target.tagName == 'BUTTON' && e.target.className== 'yes'){
+                    editQuestion(key-1);
+                    elem.remove();
+                }else{
+                    elem.remove();
+                }
+                elem.remove();
+            })
+        };
+
+        const editQuestion = (i)=>{
+            newQuestionBox.value = questions[i].question;
+            ans1.value = questions[i].answers[0].txt;
+            ans2.value = questions[i].answers[1].txt;
+            ans3.value = questions[i].answers[2].txt;
+            ans4.value = questions[i].answers[3].txt;
+            checkBoxes.map((bx,k)=>{
+                if(questions[i].answers[k].correct == true){
+                    bx.checked = true;
+                }else{
+                    bx.checked = false;
+                }
+            })
+            // window.scrollTo({
+            //     top:0,
+            //     behavior:"smooth"
+            // })
+            form.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+                inline:"nearest"
+            })
+            addButton.style.display = "none";
+            const saveButton = document.createElement('button');
+            saveButton.className = 'save-question';
+            saveButton.innerText = "Save";
+            document.querySelector('.add-box').appendChild(saveButton);
+            saveButton.addEventListener("click",()=>{
+                let checker = true;
+                questions[i].question = newQuestionBox.value;
+                questions[i].answers[0].txt = ans1.value;
+                questions[i].answers[1].txt = ans2.value;
+                questions[i].answers[2].txt = ans3.value;
+                questions[i].answers[3].txt = ans4.value;
+                checkBoxes.map((cb, cb2) => {
+                    if (cb.checked === true) { checker = false; }
+                    questions[i].answers[cb2].correct = cb.checked;
+                })
+                if (checker) {
+                    alert("Please select the correct Answer first! ");
+                } else {
+                    saveAllQuestion();
+                    freeInputFields();
+                    showAllQuestions();
+                }
+                saveButton.remove();
+                addButton.style.display = "block";
+            })
+        };
+        
+
     </script>
 </body>
 </html>
